@@ -100,11 +100,11 @@
             .then(data => {
                 // Is 'payload' even the right term?
                 var payload = JSON.stringify(data);
-                // shows the payload in an alert for development purpose. This is temporary
-                alert(payload);
+                alert(payload); // shows the payload in an alert for development purpose. This is temporary
                 console.log(payload);
             })
             .catch(error => console.error(error))
+
             // TODO: I feel like clearing the form is necessary in case someone wants to submit something else after
             .then(document.getElementById("form").reset())
             // TODO: Some kind of confirmation that the content has been submitted. Probably more complex than this:
