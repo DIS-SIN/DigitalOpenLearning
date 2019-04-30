@@ -18,8 +18,11 @@
         <form id="form">
             <div class="input-field">
                 <h5>Content URL</h5>
-                <input id="content_URL" type="text" name="url" placeholder="Paste your content URL here." required
-                    pattern="https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)">
+                <!-- The form validation has been removed for now because it was inconsistent (it would 
+                    work on a submission but not the next one) -->
+                <!-- <input id="content_URL" type="text" name="url" placeholder="Paste your content URL here." required
+                    pattern="https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)"> -->
+                <input id="content_URL" type="text" name="url" placeholder="Paste your content URL here.">
             </div>
             <div>
                 <h5>Categories</h5>
@@ -96,6 +99,7 @@
             postData('http://localhost:5000', {
                 "url": url,
                 "categories": categories
+                // any additional data can be added here
             })
             .then(data => {
                 // Is 'payload' even the right term?
@@ -106,8 +110,9 @@
             .catch(error => console.error(error))
 
             // TODO: I feel like clearing the form is necessary in case someone wants to submit something else after
+            // or it might NOT be necessary if we intend to redirect the user to another page anyway
             .then(document.getElementById("form").reset())
-            // TODO: Some kind of confirmation that the content has been submitted. Probably more complex than this:
+            // TODO: add some kind of confirmation that the content has been submitted. Probably more complex than this:
             .then(alert("Your content has been successfully submitted."));
         }
 
