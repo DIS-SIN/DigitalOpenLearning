@@ -17,7 +17,6 @@
         <br>
         <form id="form">
             <div class="input-field">
-                <!-- <label for="content_URL">Content URL</label> -->
                 <h5>Content URL</h5>
                 <input id="content_URL" type="text" name="url" placeholder="Paste your content URL here." required
                     pattern="https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)">
@@ -64,7 +63,6 @@
             </div>
             <button id="btnSubmit" class="btn waves-effect" type="submit">Submit</button>
         </form>
-        <!-- <button id="btnSubmit" class="btn waves-effect">Submit</button> -->
     </div>
 
 <!--JavaScript at end of body for optimized loading-->
@@ -73,16 +71,6 @@
 
 (function ($) {
     $(function () {
-        // function postData(url, data) {
-        //     return fetch(url, {
-        //         method: "POST",
-        //         headers: {
-        //             "Content-Type": "application/json",
-        //         },
-        //         body: JSON.stringify(data),
-        //     }).then(response => response.json());
-        // }
-
         // From https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch
         function postData(url, data) {
             return fetch(url, {
@@ -98,7 +86,6 @@
             });
         }
 
-
         function submitContent() {
             var url = $("#content_URL").val();
             // List the values of every checked box with the name 'category'
@@ -106,27 +93,22 @@
             $.each($("input[name='category']:checked"), function() {
                 categories.push($(this).val());
             })
-            // 
-            // postData('http://localhost:5000/submit', {
             postData('http://localhost:5000', {
                 "url": url,
                 "categories": categories
             })
-            // Is 'payload' the right term?
             .then(data => {
+                // Is 'payload' even the right term?
                 var payload = JSON.stringify(data);
+                // shows the payload in an alert for development purpose. This is temporary
                 alert(payload);
                 console.log(payload);
             })
-            .catch(error => console.error(error));
-            // .then(data => alert(JSON.stringify(data)))
-            // .then(data => console.log(JSON.stringify(data)))
-            // .catch(error => console.error(error));
-            // document.getElementById("form").reset();
-        }
-
-        function clearForm() {
-            document.getElementById("form").reset();
+            .catch(error => console.error(error))
+            // TODO: I feel like clearing the form is necessary in case someone wants to submit something else after
+            .then(document.getElementById("form").reset())
+            // TODO: Some kind of confirmation that the content has been submitted. Probably more complex than this:
+            .then(alert("Your content has been successfully submitted."));
         }
 
         $("#btnSubmit").on("click",function(){
@@ -134,18 +116,6 @@
         });
     });
 })(jQuery);
-
-
 </script>
 </body>
 </html>
-
-
-
-<!-- 
-    Issues:
-    
-    I can't use basic HTML5 built-in validation without the use of a <form>, BUT
-    if I use a <form>, the request's body get added to the URL and also causes the
-    alert to only work every two times. 
- -->
